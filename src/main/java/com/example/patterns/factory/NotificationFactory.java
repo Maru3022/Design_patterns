@@ -1,6 +1,6 @@
 package com.example.patterns.factory;
 
-abstract class NotificationFactory {
+public abstract class NotificationFactory {
     public abstract Notification createNotification();
 
     public void send() {

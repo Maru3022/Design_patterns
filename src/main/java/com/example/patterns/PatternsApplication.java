@@ -4,6 +4,9 @@ import com.example.patterns.decorator.Coffee;
 import com.example.patterns.decorator.MilkDecorator;
 import com.example.patterns.decorator.SimpleCoffee;
 import com.example.patterns.decorator.SugarDecorator;
+import com.example.patterns.factory.EmailFactory;
+import com.example.patterns.factory.NotificationFactory;
+import com.example.patterns.factory.SMSFactory;
 import com.example.patterns.strategy.CreditCardPayment;
 import com.example.patterns.strategy.Order;
 import com.example.patterns.strategy.PayPalPayment;
@@ -52,6 +55,25 @@ public class PatternsApplication {
             myOrder.processOrder();
 
             System.out.println("==============================\n");
+        };
+    }
+
+    @Bean
+    public CommandLineRunner runFactory() {
+        return args -> {
+            System.out.println("\n=== FACTORY METHOD PATTERN DEMO ===");
+
+            // Создаем фабрику для SMS
+            NotificationFactory smsFactory = new SMSFactory();
+            System.out.println("Factory: Requesting SMS delivery...");
+            smsFactory.send();
+
+            // Создаем фабрику для Email
+            NotificationFactory emailFactory = new EmailFactory();
+            System.out.println("\nFactory: Requesting Email delivery...");
+            emailFactory.send();
+
+            System.out.println("====================================\n");
         };
     }
 }

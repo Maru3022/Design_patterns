@@ -1,7 +1,8 @@
 package com.example.patterns.factory;
 
- class SMSFactory extends NotificationFactory{
-    public Notification createNotification(){
-        return new EmailNotification();
+ public class SMSFactory extends NotificationFactory{
+     @Override
+     public Notification createNotification(){
+        return new SMSNotification();
     }
 }
