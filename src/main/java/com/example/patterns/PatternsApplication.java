@@ -1,5 +1,10 @@
 package com.example.patterns;
 
+import com.example.patterns.adapter.OldEuropeanSocket;
+import com.example.patterns.adapter.SocketAdapter;
+import com.example.patterns.adapter.UsbCCharger;
+import com.example.patterns.builder.Builder;
+import com.example.patterns.builder.Laptop;
 import com.example.patterns.decorator.Coffee;
 import com.example.patterns.decorator.MilkDecorator;
 import com.example.patterns.decorator.SimpleCoffee;
@@ -7,6 +12,8 @@ import com.example.patterns.decorator.SugarDecorator;
 import com.example.patterns.factory.EmailFactory;
 import com.example.patterns.factory.NotificationFactory;
 import com.example.patterns.factory.SMSFactory;
+import com.example.patterns.proxy.Internet;
+import com.example.patterns.proxy.ProxyInternet;
 import com.example.patterns.strategy.CreditCardPayment;
 import com.example.patterns.strategy.Order;
 import com.example.patterns.strategy.PayPalPayment;
@@ -74,6 +81,43 @@ public class PatternsApplication {
             emailFactory.send();
 
             System.out.println("====================================\n");
+        };
+    }
+
+    @Bean
+    public CommandLineRunner runAdapter(){
+        return args -> {
+            System.out.println("\n=== ADAPTER PATTERN DEMO ===");
+
+            OldEuropeanSocket oldSocket = new OldEuropeanSocket();
+            UsbCCharger myAdapter = new SocketAdapter(oldSocket);
+
+            myAdapter.charge();
+            System.out.println("=========================\n");
+        };
+    }
+
+    @Bean
+    public CommandLineRunner runBuilder() {
+        return args -> {
+            System.out.println("\n=== BUILDER PATTERN DEMO ===");
+            Laptop gamingLaptop = new Builder("Intel i9")
+                    .setRam(32)
+                    .setHasSsd(true)
+                    .build();
+            System.out.println(gamingLaptop.toString());
+        };
+    }
+
+    @Bean
+    public CommandLineRunner runProxy() {
+        return args -> {
+            System.out.println("\n=== PROXY PATTERN DEMO ===");
+            Internet internet = new ProxyInternet();
+
+            internet.connectTo("google.com");
+            internet.connectTo("facebook.com");
+            System.out.println("==========================\n");
         };
     }
 }
