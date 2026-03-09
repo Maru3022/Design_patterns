@@ -12,6 +12,10 @@ import com.example.patterns.decorator.SugarDecorator;
 import com.example.patterns.factory.EmailFactory;
 import com.example.patterns.factory.NotificationFactory;
 import com.example.patterns.factory.SMSFactory;
+import com.example.patterns.observer.DeliveryService;
+import com.example.patterns.observer.EmailNotificationService;
+import com.example.patterns.observer.Observer;
+import com.example.patterns.observer.OrderStatusManager;
 import com.example.patterns.proxy.Internet;
 import com.example.patterns.proxy.ProxyInternet;
 import com.example.patterns.strategy.CreditCardPayment;
@@ -118,6 +122,29 @@ public class PatternsApplication {
             internet.connectTo("google.com");
             internet.connectTo("facebook.com");
             System.out.println("==========================\n");
+        };
+    }
+
+    @Bean
+    public CommandLineRunner runObserver() {
+        return args -> {
+            System.out.println("\n=== OBSERVER PATTERN DEMO ===");
+
+            OrderStatusManager orderManager = new OrderStatusManager();
+
+            Observer emailService = new EmailNotificationService();
+            Observer deliveryService = new DeliveryService();
+
+            orderManager.subscribe(emailService);
+            orderManager.subscribe(deliveryService);
+
+            System.out.println("Updating status to: PAYMENT_RECEIVED");
+            orderManager.setStatus("PAYMENT_RECEIVED");
+
+            System.out.println("\nUpdating status to: READY_FOR_SHIPPING");
+            orderManager.setStatus("READY_FOR_SHIPPING");
+
+            System.out.println("==============================\n");
         };
     }
 }
